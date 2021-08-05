@@ -38,8 +38,12 @@
     <!-- <div>fib1 - {{ fibb1 }} fib2 - {{ fibb2 }}</div> -->
 
     <div class="vir_keyboard">
-      <input type="checkbox" id="checkbox" v-model="checked" />
-      <label for="checkbox">Отобразить экранную клавиатуру</label>
+      <label>
+        <input type="checkbox" id="checkbox" v-model="checked" />
+        Отобразить экранную клавиатуру
+      </label>
+      <!-- <input type="checkbox" id="checkbox" v-model="checked" />
+      <label for="checkbox">Отобразить экранную клавиатуру</label> -->
       <br />
       <br />
       <div v-show="checked">
@@ -48,10 +52,15 @@
         </button>
         <button @click="backspace">←</button>
         <div>
-          <input type="radio" id="one" value="operand1" v-model="picked" />
-          <label for="one">Операнд 1</label>
-          <input type="radio" id="two" value="operand2" v-model="picked" />
-          <label for="two">Операнд 2</label>
+          <br />
+          <label>
+            <input type="radio" id="one" value="operand1" v-model="picked" />
+            Операнд 1
+          </label>
+          <label>
+            <input type="radio" id="two" value="operand2" v-model="picked" />
+            Операнд 2
+          </label>
         </div>
       </div>
     </div>
