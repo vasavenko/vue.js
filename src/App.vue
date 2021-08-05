@@ -2,7 +2,10 @@
   <div id="app">
     <header :class="[$style.header]">My personal costs</header>
     <main>
-      <PaymentForm @add="onDataAdded" />
+      <button :class="[$style.btn]" @click="isVisibleForm = !isVisibleForm">
+        ADD NEW COST +
+      </button>
+      <PaymentForm @add="onDataAdded" v-show="isVisibleForm" />
       <PaymentsList :items="paymentsList" />
     </main>
   </div>
@@ -42,6 +45,7 @@ export default {
           price: 987,
         },
       ],
+      isVisibleForm: false,
     };
   },
   methods: {
@@ -52,7 +56,16 @@ export default {
 };
 </script>
 
-<style lang="sass" module>
-.header
-	font-size: 40px
+<style lang="scss" module>
+.header {
+  font-size: 40px;
+}
+.btn {
+  border-radius: 5px;
+  margin: 20px;
+  padding: 8px;
+  background-color: rgb(7, 161, 149);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
 </style>
