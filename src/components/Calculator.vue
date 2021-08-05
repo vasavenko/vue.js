@@ -3,10 +3,9 @@
     <div class="display">
       <input type="number" v-model.number="operand1" />
       <input type="number" v-model.number="operand2" />
-      <br />
       = {{ result }}
       <br />
-      fibResult = {{ fibResult }}
+      <!-- fibResult = {{ fibResult }} -->
     </div>
 
     <div class="keyboard">
@@ -38,9 +37,37 @@
 
     <!-- <div>fib1 - {{ fibb1 }} fib2 - {{ fibb2 }}</div> -->
 
-    <div class="logs">
-      <div v-for="(log, id) in logs" v-bind:key="id">{{ id }} - {{ log }}</div>
+    <div class="vir_keyboard">
+      <label>
+        <input type="checkbox" id="checkbox" v-model="checked" />
+        Отобразить экранную клавиатуру
+      </label>
+      <!-- <input type="checkbox" id="checkbox" v-model="checked" />
+      <label for="checkbox">Отобразить экранную клавиатуру</label> -->
+      <br />
+      <br />
+      <div v-show="checked">
+        <button v-for="btn in 10" :key="btn" @click="enterNum(btn - 1)">
+          {{ btn - 1 }}
+        </button>
+        <button @click="backspace">←</button>
+        <div>
+          <br />
+          <label>
+            <input type="radio" id="one" value="operand1" v-model="picked" />
+            Операнд 1
+          </label>
+          <label>
+            <input type="radio" id="two" value="operand2" v-model="picked" />
+            Операнд 2
+          </label>
+        </div>
+      </div>
     </div>
+
+    <!-- <div class="logs">
+      <div v-for="(log, id) in logs" v-bind:key="id">{{ id }} - {{ log }}</div>
+    </div> -->
   </div>
 </template>
 
@@ -57,11 +84,12 @@ export default {
       operations: ["+", "-", "*", "/", "**", "%"],
       logs: {},
       checked: false,
+      picked: "operand1",
     };
   },
   methods: {
     add() {
-      this.result = this.operand1 + this.operand2;
+      this.result = +this.operand1 + +this.operand2;
       this.fibResult = this.fibb1 + this.fibb2;
     },
     substract() {
@@ -70,7 +98,7 @@ export default {
     },
     divide() {
       const { operand1, operand2 } = this;
-      if (operand2 === 0) {
+      if (+operand2 === 0) {
         this.error = "Делить на 0 нельзя!";
       } else {
         this.result = operand1 / operand2;
@@ -113,22 +141,41 @@ export default {
       this.$set(this.logs, key, value);
     },
 
-    fib(n) {
-      return n <= 1 ? n : this.fib(n - 1) + this.fib(n - 2);
+    // fib(n) {
+    //   return n <= 1 ? n : this.fib(n - 1) + this.fib(n - 2);
+    // },
+
+    enterNum(btn) {
+      if (this.picked === "operand1") {
+        this.operand1 += String(btn);
+      } else {
+        this.operand2 += String(btn);
+      }
+    },
+    backspace() {
+      if (this.picked === "operand1") {
+        // this.operand1 = String(this.operand1).length - 1;
+        this.operand1 = this.operand1.slice(0, this.operand1.length - 1);
+      } else {
+        // this.operand2 = String(this.operand2).length - 1;
+        this.operand2 = this.operand2.slice(0, this.operand2.length - 1);
+      }
     },
   },
-  computed: {
-    fibb1() {
-      return this.fib(this.operand1);
-    },
-    fibb2() {
-      return this.fib(this.operand2);
-    },
-  },
+  //   computed: {
+  //     fibb1() {
+  //       return this.fib(this.operand1);
+  //     },
+  //     fibb2() {
+  //       return this.fib(this.operand2);
+  //     },
+  //   },
 };
 </script>
 
 <style scoped lang='sass'>
 .error
 	color: red
+.vir_keyboard
+	margin-top: 30px
 </style>
