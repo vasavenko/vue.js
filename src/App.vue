@@ -23,28 +23,7 @@ export default {
   },
   data() {
     return {
-      paymentsList: [
-        {
-          date: "04.08.2021",
-          category: "Education",
-          price: 123,
-        },
-        {
-          date: "03.08.2021",
-          category: "Education",
-          price: 4000,
-        },
-        {
-          date: "02.08.2021",
-          category: "Education",
-          price: 654,
-        },
-        {
-          date: "01.08.2021",
-          category: "Education",
-          price: 987,
-        },
-      ],
+      paymentsList: [],
       isVisibleForm: false,
     };
   },

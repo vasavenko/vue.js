@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "PaymentForm",
   data() {
@@ -17,16 +18,8 @@ export default {
       price: 0,
     };
   },
-  computed: {
-    getCurrentDate() {
-      const today = new Date();
-      const d = today.getDate();
-      const m = today.getMonth() + 1;
-      const y = today.getFullYear();
-      return `${d}.${m}.${y}`;
-    },
-  },
   methods: {
+    ...mapMutations(["setPaymentsListData"]),
     save() {
       const { category, price } = this;
       const data = {
@@ -35,6 +28,44 @@ export default {
         category,
       };
       this.$emit("add", data);
+    },
+    fetchData() {
+      return [
+        {
+          date: "04.08.2021",
+          category: "Education",
+          price: 123,
+        },
+        {
+          date: "03.08.2021",
+          category: "Education",
+          price: 4000,
+        },
+        {
+          date: "02.08.2021",
+          category: "Education",
+          price: 654,
+        },
+        {
+          date: "01.08.2021",
+          category: "Education",
+          price: 987,
+        },
+      ];
+    },
+  },
+
+  mounted() {
+    this.setPaymentsListData(this.fetchData());
+  },
+
+  computed: {
+    getCurrentDate() {
+      const today = new Date();
+      const d = today.getDate();
+      const m = today.getMonth() + 1;
+      const y = today.getFullYear();
+      return `${d}.${m}.${y}`;
     },
   },
 };
