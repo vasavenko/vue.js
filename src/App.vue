@@ -5,8 +5,8 @@
       <button :class="[$style.btn]" @click="isVisibleForm = !isVisibleForm">
         ADD NEW COST +
       </button>
-      <PaymentForm @add="onDataAdded" v-show="isVisibleForm" />
-      <PaymentsList :items="paymentsList" />
+      <PaymentForm v-show="isVisibleForm" />
+      <PaymentsList />
     </main>
   </div>
 </template>
@@ -14,6 +14,8 @@
 <script>
 import PaymentsList from "./components/PaymentsList";
 import PaymentForm from "./components/PaymentForm";
+
+// import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -23,14 +25,16 @@ export default {
   },
   data() {
     return {
-      paymentsList: [],
       isVisibleForm: false,
     };
   },
   methods: {
-    onDataAdded(data) {
-      this.paymentsList.push(data);
-    },
+    // ...mapActions(["fetchData"]),
+  },
+
+  mounted() {
+    // this.fetchData();
+    this.$store.dispatch("fetchData");
   },
 };
 </script>

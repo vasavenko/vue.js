@@ -1,14 +1,22 @@
 <template>
   <div :class="[$style.form]">
     <input placeholder="Date" v-model="date" />
-    <input placeholder="Category" v-model="category" />
+    <select v-model="category" :class="[$style.select]">
+      <option v-for="option in getCategoryList" :key="option">
+        {{ option }}
+      </option>
+      <option @click="123">Добавить категорию</option>
+    </select>
+    <!-- <button @click="123" :class="[$style.btn_cat]">Cat +</button> -->
+    <!-- <input placeholder="Category" v-model="category" /> -->
     <input placeholder="Price" v-model.number="price" />
     <button @click="save" :class="[$style.btn]">ADD +</button>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapActions, mapGetters } from "vuex";
+
 export default {
   name: "PaymentForm",
   data() {
@@ -18,48 +26,28 @@ export default {
       price: 0,
     };
   },
+
   methods: {
-    ...mapMutations(["setPaymentsListData"]),
+    ...mapActions(["loadCategories"]),
+    ...mapMutations(["addDataToPaymentList"]),
     save() {
       const { category, price } = this;
       const data = {
         date: this.date || this.getCurrentDate,
         price,
         category,
+        // price: +this.price,
+        // category: this.category,
       };
-      this.$emit("add", data);
+      this.addDataToPaymentList(data);
+      // this.$store.commit("addDataToPaymentList", data);
+      // this.$emit("add", data);
     },
-    fetchData() {
-      return [
-        {
-          date: "04.08.2021",
-          category: "Education",
-          price: 123,
-        },
-        {
-          date: "03.08.2021",
-          category: "Education",
-          price: 4000,
-        },
-        {
-          date: "02.08.2021",
-          category: "Education",
-          price: 654,
-        },
-        {
-          date: "01.08.2021",
-          category: "Education",
-          price: 987,
-        },
-      ];
-    },
-  },
-
-  mounted() {
-    this.setPaymentsListData(this.fetchData());
   },
 
   computed: {
+    ...mapGetters(["getCategoryList"]),
+
     getCurrentDate() {
       const today = new Date();
       const d = today.getDate();
@@ -67,6 +55,11 @@ export default {
       const y = today.getFullYear();
       return `${d}.${m}.${y}`;
     },
+  },
+  mounted() {
+    if (!this.getCategoryList.length) {
+      this.loadCategories();
+    }
   },
 };
 </script>
@@ -76,6 +69,7 @@ export default {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.62);
   border-radius: 5px;
   box-sizing: border-box;
+  left: 500px;
   top: 130px;
   position: absolute;
   background-color: white;
@@ -91,5 +85,8 @@ export default {
   color: rgb(255, 255, 255);
   cursor: pointer;
   width: 130px;
+}
+.select {
+  width: 176px;
 }
 </style>
